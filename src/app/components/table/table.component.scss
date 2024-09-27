@@ -1,0 +1,16 @@
+:host {
+    display: block;
+}
+
+mat-row {
+    cursor: pointer;
+
+    &:hover {
+        background: silver;
+        color: black;
+    }
+}
+
+.selected-row {
+    background: lightslategray;
+}

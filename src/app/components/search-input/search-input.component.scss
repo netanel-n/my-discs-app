@@ -1,0 +1,18 @@
+:host {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+
+form {
+    display: flex;
+    align-items: center;
+
+    &.right {
+        justify-self: end;
+    }
+
+    &:first-child {
+        border-right: 1px solid black;
+    }
+}

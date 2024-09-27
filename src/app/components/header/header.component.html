@@ -1,0 +1,22 @@
+<mat-toolbar>
+    <button mat-icon-button class="m-r--1rem" [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        @for (item of router.config; track item.path) {
+        <a mat-menu-item [routerLink]="[item.path]">
+            {{ item.title }}
+        </a>
+        }
+    </mat-menu>
+
+    <span>My App</span>
+    <span class="page-seperator">-</span>
+    <span>Home</span>
+
+    @if (!authService.isSignedIn()) {
+        <a mat-flat-button class="btn-sign-in--sign-out" routerLink="login">Sign In</a>
+    } @else {
+        <a mat-flat-button class="btn-sign-in--sign-out" routerLink="logout">Sign Out</a>
+    }
+</mat-toolbar>

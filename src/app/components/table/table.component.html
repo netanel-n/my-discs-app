@@ -1,0 +1,16 @@
+<mat-table [dataSource]="dataSource()">
+    @for (item of columns(); track item.key) {
+    <ng-container matColumnDef="{{item.key}}">
+        <mat-header-cell *matHeaderCellDef>{{item.name}}</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row[item.key]}}</mat-cell>
+    </ng-container>
+    }
+
+    <mat-header-row *matHeaderRowDef="columnsHeaders()"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsHeaders()"
+        [class.selected-row]="row[rowIdProp()] === selectedRowId" (click)="selectRow(row);"></mat-row>
+</mat-table>
+
+@if (withPagination()) {
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+}

@@ -1,0 +1,20 @@
+<form [formGroup]="formGroupFindByDiscName" (ngSubmit)="submitFormFindByDiscName();">
+    <mat-form-field [subscriptSizing]="'dynamic'">
+        <mat-label>Find by Disc Name</mat-label>
+        <input type="search" matInput required [formControlName]="'discName'">
+    </mat-form-field>
+    <button mat-flat-button class="m-l--1rem" [disabled]="formGroupFindByDiscName.invalid">Find</button>
+</form>
+
+<form class="right" [formGroup]="formGroupFindByHistory" (ngSubmit)="submitFormFindByHistory();">
+    <mat-form-field [subscriptSizing]="'dynamic'">
+        <mat-label>Find by history</mat-label>
+        <mat-select [formControlName]="'discName'">
+            <mat-option value=""></mat-option>
+            @for (item of historyQueue(); track item.value) {
+            <mat-option [value]="item.value">{{item.value}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <button mat-flat-button class="m-l--1rem" [disabled]="formGroupFindByHistory.invalid">Find</button>
+</form>

@@ -1,0 +1,8 @@
+:host {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+
+    // ToDo: Put in a variable.
+    grid-template-rows: 64px 1fr;
+}
