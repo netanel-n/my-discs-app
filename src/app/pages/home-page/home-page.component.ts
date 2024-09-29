@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { SearchInputComponent } from "../../components/search-input/search-input.component";
 import { DiscListComponent } from "../../components/disc-list/disc-list.component";
-import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
+import { DataReceivedModel } from '../../components/search-input/models/data-received.model';
 
 @Component({
     selector: 'app-home-page',
@@ -12,10 +12,6 @@ import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
     host: { 'class': 'page' }
 })
 export default class HomePageComponent {
-    pageNum = 1;
-    dataSource = signal<SimplifiedAlbum[]>([]);
-
-    dataReceived(data: any) {
-
-    }
+    pageNum = signal(1);
+    receivedData = signal<null | DataReceivedModel>(null);
 }

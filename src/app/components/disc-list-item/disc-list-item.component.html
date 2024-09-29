@@ -1,11 +1,18 @@
-<ng-container>
-    <span>1</span>
-</ng-container>
+@switch (cellKey()) {
+@case ('name') {
+<span>{{cellData()}}</span>
+} @case ('images') {
 
-<ng-container>
-    <span>2</span>
-</ng-container>
+<!-- ToDo: Implement an input transform instead. -->
+@if (cellData().at(-1).url; as imageUrl) {
+<img [src]="cellData().at(-1).url" height="64">
+} @else {
+<span>Album image not available.</span>
+}
 
-<ng-container>
-    <span>3</span>
-</ng-container>
+} @case ('release_date') {
+<span>{{cellData() | date:'dd/MM/yyyy'}}</span>
+} @case ('id') {
+<a [routerLink]="['/disc', cellData()]">Browse</a>
+}
+}

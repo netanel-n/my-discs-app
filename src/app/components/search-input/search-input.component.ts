@@ -5,9 +5,9 @@ import { SearchInputService } from './search-input.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { BlockUiService } from '../block-ui/block-ui.service';
-import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
+import { DataReceivedModel } from './models/data-received.model';
 
 @Component({
     selector: 'app-search-input',
@@ -18,16 +18,14 @@ import { DatePipe } from '@angular/common';
     providers: [SearchInputService]
 })
 export class SearchInputComponent {
-    pageLimit = input.required<number>();
+    pageNum = input.required<number>();
+    pageLength = input.required<number>();
 
-    dataReceived = output<SimplifiedAlbum[]>();
-
-    pageNum = model.required<number>();
+    dataReceived = output<DataReceivedModel>();
 
     #id = 0; // First item will be `1`.
     #indexHead = -1;
     historyQueue = signal<{ id: number, value: string, dateTime: Date }[]>([]);
-    #itemsTotal = signal<number>(Infinity);
 
     readonly formGroupFindByDiscName: FormGroup<{ discName: FormControl<string> }>;
     readonly formGroupFindByHistory: FormGroup<{ discName: FormControl<string> }>;
@@ -44,11 +42,17 @@ export class SearchInputComponent {
         const discNameToSearch = discName || this.formGroupFindByDiscName.value.discName!;
         if (!discName) this.#addToHistory();
         this._blockUiService.block();
-        this._searchInputService.findDiscs(discNameToSearch, 1, this.pageLimit())
+        this._searchInputService.findDiscs(discNameToSearch, 1, this.pageLength())
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(x => {
-                this.#itemsTotal.set(x.albums.total);
-                this.dataReceived.emit(x.albums.items);
+                // ToDo: Put `emit` in a pipe.
+                this.dataReceived.emit(new DataReceivedModel({
+                    data: x.albums.items,
+                    pageNum: this.pageNum(),
+                    length: x.albums.total,
+                    pageLength: this.pageLength()
+                }));
+
                 this._blockUiService.unBlock();
             });
     }

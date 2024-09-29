@@ -4,6 +4,7 @@ import { StorageService } from '../../../services/storage.service';
 import { map, mergeMap, of, tap } from 'rxjs';
 import { SpotifySignInResponseModel } from '../models/spotify-sign-in-response.model';
 import { ISpotifySignInResponse } from '../interfaces/spotify-sign-in-response.interface';
+import { Router } from '@angular/router';
 import { SKIP_AUTH_VALIDATION } from '../context-tokens/context-tokens';
 
 @Injectable({ providedIn: 'root' })
@@ -14,6 +15,7 @@ export class AuthService {
     get #AUTH_KEY() { return 'AUTH_KEY'; }
 
     constructor(private readonly _http: HttpClient
+        , private readonly _router: Router
         , private readonly _storageService: StorageService) { }
 
     /** For a better security, And fast reaction, And less bug possibilities,
@@ -32,7 +34,6 @@ export class AuthService {
         return of(true).pipe(mergeMap(() => this.signInToSpotify()));
     }
 
-    // yayas65039@aiworldx.com
     signInToSpotify() {
         const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
         /** ToDo: Put in a global Env file. */
@@ -49,8 +50,11 @@ export class AuthService {
 
     }
 
-    signOut() {
+    signOut({ withNavigate = false } = {}) {
         this._storageService.remove(this.#AUTH_KEY);
+        if (withNavigate) {
+            this._router.navigate(['/landing-page'], { replaceUrl: true });
+        }
         return true;
     }
 }

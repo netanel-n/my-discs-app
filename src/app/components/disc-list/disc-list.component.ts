@@ -1,8 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { TableComponent } from '../table/table.component';
 import { ColumnModel } from '../table/models/column.model';
-import { Router } from '@angular/router';
-import { RowSelectedEventData } from '../table/models/row-selected-event-data.model';
+import { CellContentType_ComponentByPropModel } from '../table/models/cell-content-type_component-by-prop.model';
+import { DiscListItemComponent } from '../disc-list-item/disc-list-item.component';
+import { DataReceivedModel } from '../search-input/models/data-received.model';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-disc-list',
@@ -12,17 +14,26 @@ import { RowSelectedEventData } from '../table/models/row-selected-event-data.mo
     styleUrl: './disc-list.component.scss'
 })
 export class DiscListComponent {
-    dataSource = input.required<any[]>();
+    receivedData = input.required<DataReceivedModel>();
+
+    pageSelected = output<PageEvent>();
 
     readonly columns = [
-        new ColumnModel({ name: 'Name', key: 'name' }),
-        new ColumnModel({ name: 'Image', key: 'images' }),
-        new ColumnModel({ name: 'Release Date', key: 'release_date' }),
+        new ColumnModel({
+            name: 'Name', key: 'name',
+            cellContentType: new CellContentType_ComponentByPropModel({ componentTypeRef: DiscListItemComponent })
+        }),
+        new ColumnModel({
+            name: 'Image', key: 'images',
+            cellContentType: new CellContentType_ComponentByPropModel({ componentTypeRef: DiscListItemComponent })
+        }),
+        new ColumnModel({
+            name: 'Release Date', key: 'release_date',
+            cellContentType: new CellContentType_ComponentByPropModel({ componentTypeRef: DiscListItemComponent })
+        }),
+        new ColumnModel({
+            name: '', key: 'id',
+            cellContentType: new CellContentType_ComponentByPropModel({ componentTypeRef: DiscListItemComponent })
+        })
     ];
-
-    constructor(private readonly _router: Router) { }
-
-    rowSelected({ row, selectedRowId }: RowSelectedEventData<any>) {
-        this._router.navigate(['/disc', selectedRowId]);
-    }
 }

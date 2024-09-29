@@ -2,15 +2,24 @@
     @for (item of columns(); track item.key) {
     <ng-container matColumnDef="{{item.key}}">
         <mat-header-cell *matHeaderCellDef>{{item.name}}</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row[item.key]}}</mat-cell>
+        <mat-cell *matCellDef="let row">
+            @switch (item.cellContentType.myName) {
+            @case ('CellContentType_Normal') {
+            <span>{{row[item.key]}}</span>
+            } @case ('CellContentType_ComponentByProp') {
+            <ng-container *ngComponentOutlet="item.cellContentType.componentTypeRef; inputs: {cellKey: item.key
+                , rowData: row, columnData: item, cellData: row[item.key]}" />
+            }
+            }
+        </mat-cell>
     </ng-container>
     }
 
     <mat-header-row *matHeaderRowDef="columnsHeaders()"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnsHeaders()"
-        [class.selected-row]="row[rowIdProp()] === selectedRowId" (click)="selectRow(row);"></mat-row>
+    <mat-row *matRowDef="let row; columns: columnsHeaders()" [class.selected-row]="row[rowIdProp()] === selectedRowId()"
+        (click)="selectRow(row);"></mat-row>
 </mat-table>
 
 @if (withPagination()) {
-<mat-paginator [hidePageSize]="hidePageSize"></mat-paginator>
+<mat-paginator [length]="length()" [hidePageSize]="hidePageSize" (page)="pageSelected.emit($event);"></mat-paginator>
 }

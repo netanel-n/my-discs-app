@@ -1,2 +1,3 @@
-<app-table [columns]="columns" [dataSource]="dataSource()" [withPagination]="true" [hidePageSize]="true"
-    [rowIdProp]="'id'" (rowSelected)="rowSelected($event);"></app-table>
+<app-table [columns]="columns" [dataSource]="receivedData().data" [length]="receivedData().length"
+    [withPagination]="true" [hidePageSize]="true" [rowIdProp]="'id'"
+    (pageSelected)="pageSelected.emit($event);"></app-table>

@@ -1,20 +1,25 @@
+@let isSignedIn = authService.isSignedIn();
 <mat-toolbar>
     <button mat-icon-button class="m-r--1rem" [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
         @for (item of router.config; track item.path) {
+        @let isVisibleInMenu = item.data!['isVisibleInMenu'];
+        @if (isVisibleInMenu === 'visible' || (isVisibleInMenu === 'ifSignedIn' && isSignedIn)
+        || (isVisibleInMenu === 'ifNotSignedIn' && !isSignedIn)) {
         <a mat-menu-item [routerLink]="[item.path]">
-            {{ item.title }}
+            {{item.title}}
         </a>
+        }
         }
     </mat-menu>
 
     <span>{{title.getTitle()}}</span>
 
-    @if (!authService.isSignedIn()) {
-    <a mat-flat-button class="btn-sign-in--sign-out" routerLink="login">Sign In</a>
+    @if (!isSignedIn) {
+    <a mat-flat-button class="btn-sign-in--sign-out" routerLink="sign-in">Sign In</a>
     } @else {
-    <a mat-flat-button class="btn-sign-in--sign-out" routerLink="logout">Sign Out</a>
+    <a mat-flat-button class="btn-sign-in--sign-out" routerLink="sign-out">Sign Out</a>
     }
 </mat-toolbar>
