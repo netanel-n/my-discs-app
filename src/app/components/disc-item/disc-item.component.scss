@@ -1,0 +1,23 @@
+form {
+    --num-of-rows: 4;
+    width: 50%;
+    min-width: 500px;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 300px repeat(calc(var(--num-of-rows) - 1), 1fr);
+
+    .img-disc-column {
+        contain: size;
+        overflow: hidden;
+        text-align: center;
+        grid-area: 1 / 1 / -1 / -1;
+
+        img {
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            border-radius: 0 3rem;
+        }
+    }
+}

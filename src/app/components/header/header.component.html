@@ -10,13 +10,11 @@
         }
     </mat-menu>
 
-    <span>My App</span>
-    <span class="page-seperator">-</span>
-    <span>Home</span>
+    <span>{{title.getTitle()}}</span>
 
     @if (!authService.isSignedIn()) {
-        <a mat-flat-button class="btn-sign-in--sign-out" routerLink="login">Sign In</a>
+    <a mat-flat-button class="btn-sign-in--sign-out" routerLink="login">Sign In</a>
     } @else {
-        <a mat-flat-button class="btn-sign-in--sign-out" routerLink="logout">Sign Out</a>
+    <a mat-flat-button class="btn-sign-in--sign-out" routerLink="logout">Sign Out</a>
     }
 </mat-toolbar>

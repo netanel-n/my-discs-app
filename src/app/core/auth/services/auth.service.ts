@@ -20,7 +20,7 @@ export class AuthService {
      * This is a method.
      */
     isSignedIn() {
-        return this._storageService.get(this.#AUTH_KEY);
+        return this._storageService.get(this.#AUTH_KEY) !== null;
     }
 
     getSignedInInfoData() {

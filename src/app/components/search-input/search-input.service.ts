@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { NewReleases } from '@spotify/web-api-ts-sdk';
 
 @Injectable()
 export class SearchInputService {
@@ -15,10 +16,13 @@ export class SearchInputService {
         };
     }
 
-    findDiscs(discName: string, pageNum = 0, pageLimit = 20) {
+    findDiscs(discName: string, pageNum: number, pageLimit: number) {
         const params = new HttpParams().set('q', discName)
+            .set('limit', pageLimit)
+            .set('offset', pageNum - 1)
             .set('type', 'album');
 
-        return this._http.get('https://api.spotify.com/v1/search', { params });
+        // ToDo: Put URL in a config file.
+        return this._http.get<NewReleases>('https://api.spotify.com/v1/search', { params });
     }
 }

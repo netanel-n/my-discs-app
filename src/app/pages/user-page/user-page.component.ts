@@ -6,7 +6,8 @@ import { UserDetailsComponent } from "../../components/user-details/user-details
     standalone: true,
     imports: [UserDetailsComponent],
     templateUrl: './user-page.component.html',
-    styleUrl: './user-page.component.scss'
+    styleUrl: './user-page.component.scss',
+    host: { 'class': 'page' }
 })
 export default class UserPageComponent {
     constructor() { }

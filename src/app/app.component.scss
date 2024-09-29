@@ -9,5 +9,9 @@
         overflow: hidden;
         overflow-y: scroll;
         background: linear-gradient(to right, #3a6186, #89253e);
+
+        .page {
+            min-height: 500px;
+        }
     }
 }

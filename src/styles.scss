@@ -1,3 +1,7 @@
+html {
+    user-select: none;
+}
+
 html,
 body {
     height: 100%;
@@ -6,6 +10,10 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.hide {
+    display: none;
 }
 
 .m-l--1rem {

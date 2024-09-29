@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
     selector: 'app-block-ui',
     standalone: true,
-    imports: [],
-    templateUrl: './block-ui.component.html',
-    styleUrl: './block-ui.component.scss'
+    template: 'Please wait...',
+    styleUrl: './block-ui.component.scss',
+    host: {
+        '[style.display]': 'isVisible() ? "grid" : "none"'
+    }
 })
 export class BlockUiComponent {
-
+    isVisible = input.required<boolean>();
 }

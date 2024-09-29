@@ -15,8 +15,9 @@ import { PaginationDataModel } from './models/pagination-data.model';
     }
 })
 export class TableComponent {
-    withPagination = input(false);
-    paginationData = input<null | PaginationDataModel>(null);
+    hidePageSize = input<boolean>();
+    withPagination = input<boolean>();
+    paginationData = input<null | PaginationDataModel>();
     rowIdProp = input.required<string>();
     columns = input.required<ColumnModel[]>();
 

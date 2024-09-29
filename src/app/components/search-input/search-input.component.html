@@ -1,5 +1,5 @@
 <form [formGroup]="formGroupFindByDiscName" (ngSubmit)="submitFormFindByDiscName();">
-    <mat-form-field [subscriptSizing]="'dynamic'">
+    <mat-form-field>
         <mat-label>Find by Disc Name</mat-label>
         <input type="search" matInput required [formControlName]="'discName'">
     </mat-form-field>
@@ -7,12 +7,15 @@
 </form>
 
 <form class="right" [formGroup]="formGroupFindByHistory" (ngSubmit)="submitFormFindByHistory();">
-    <mat-form-field [subscriptSizing]="'dynamic'">
+    <mat-form-field>
         <mat-label>Find by history</mat-label>
         <mat-select [formControlName]="'discName'">
             <mat-option value=""></mat-option>
             @for (item of historyQueue(); track item.value) {
-            <mat-option [value]="item.value">{{item.value}}</mat-option>
+            <mat-option [value]="item.value">
+                <p>{{item.value}} -</p>
+                <p>{{item.dateTime | date:'dd/MM/yyyy HH:mm:ss:SS'}} - {{item.id}}</p>
+            </mat-option>
             }
         </mat-select>
     </mat-form-field>

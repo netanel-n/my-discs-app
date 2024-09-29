@@ -1,11 +1,43 @@
 <form [formGroup]="formGroup">
+    <div class="img-disc-column">
+        <!-- Hint: Images is sorted by size.. -->
+        <!-- ToDo: Validate if null\undefined.. -->
+        @if (formGroup.controls.images.value[0].url; as imageUrl) {
+        <img [src]="imageUrl">
+        } @else {
+        <span>Album image not available.</span>
+        }
+    </div>
     <mat-form-field>
-        <mat-label>id</mat-label>
-        <input matInput [formControlName]="'id'">
+        <mat-label>Name</mat-label>
+        <input matInput [formControlName]="'name'">
     </mat-form-field>
-    <br>
     <mat-form-field>
-        <mat-label>Title</mat-label>
-        <input matInput [formControlName]="'title'">
+        <mat-label>Label</mat-label>
+        <input matInput [formControlName]="'label'">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Release Date</mat-label>
+        <input matInput [formControlName]="'release_date'">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Total Tracks</mat-label>
+        <input matInput [formControlName]="'total_tracks'">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Artists</mat-label>
+        <mat-select [formControlName]="'artists'">
+            @for (item of formData().artists; track item.name) {
+            <mat-option [value]="item.name" [disabled]="true">{{item.name}}</mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Tracks</mat-label>
+        <mat-select [formControlName]="'tracks'">
+            @for (item of formData().tracks.items; track item.name) {
+            <mat-option [value]="item.name" [disabled]="true">{{item.name}}</mat-option>
+            }
+        </mat-select>
     </mat-form-field>
 </form>

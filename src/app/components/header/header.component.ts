@@ -15,6 +15,7 @@ import { AuthService } from '../../core/auth/services/auth.service';
     styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-    constructor(public readonly router: Router
+    constructor(protected readonly router: Router
+        , protected readonly title: Title
         , protected readonly authService: AuthService) { }
 }

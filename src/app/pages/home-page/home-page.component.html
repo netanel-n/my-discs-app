@@ -1,2 +1,2 @@
-<app-search-input />
-<app-disc-list />
+<app-search-input [(pageNum)]="pageNum" [pageLimit]="50" (dataReceived)="dataSource.set($event)" />
+<app-disc-list [dataSource]="dataSource()" />
