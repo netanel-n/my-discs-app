@@ -11,8 +11,8 @@
 - In the test, section 1.4 - A component for a row, In Angular MD, Is not allowed.
 - The `*` in `package.json` is only for this demo.
 - Timeframe 26/09 12:30+- => 26/09 20:00+-, 27/09 10:30+- => 27/09 18:00+- | Almost one day.
- - 28/09 19:00+- => 28/09 03:00+- | Almost half a day.
- - 29/09 20:30+- => 29/09 04:30+- | Almost half a day.
+  - 28/09 19:00+- => 28/09 03:00+- | Almost half a day.
+  - 29/09 20:30+- => 29/09 04:30+- | Almost half a day.
 
 ## ToDo
 - In Home Page: Apply a radio button strategy in the filter area.
