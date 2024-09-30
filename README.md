@@ -16,8 +16,8 @@
 
 ## ToDo
 - In Home Page: Apply a radio button strategy in the filter area.
- - Add a scroll, height, StickyHeader to the table.
- - Put SearchQuery to url, for convenience.
+  - Add a scroll, height, StickyHeader to the table.
+  - Put SearchQuery to url, for convenience.
 - Display App name in title + header.
 - Rename a few pages as their title.
 - Add a nice FavIcon.
