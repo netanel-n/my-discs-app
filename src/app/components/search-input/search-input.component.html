@@ -13,7 +13,7 @@
             <mat-option value=""></mat-option>
             @for (item of historyQueue(); track item.value) {
             <mat-option [value]="item.value">
-                <p>{{item.value}} -</p>
+                <p>{{item.value}} - </p>
                 <p>{{item.dateTime | date:'dd/MM/yyyy HH:mm:ss:SS'}} - {{item.id}}</p>
             </mat-option>
             }
@@ -21,3 +21,24 @@
     </mat-form-field>
     <button mat-flat-button class="m-l--1rem" [disabled]="formGroupFindByHistory.invalid">Find</button>
 </form>
+
+<footer>
+    <span>
+        <span class="m-r--1rem">
+            <!-- ToDo: Create a `N\A` `const`. -->
+            <!-- Put `isFindHasBeenExecuted()` in a LocalTemplateVariable. -->
+            <!-- And, Put all of that, in a `pipe`. -->
+            Page {{isFindHasBeenExecuted() ? pageNum() : 'N\\A'}}
+            \ {{isFindHasBeenExecuted() ? pageCount() : 'N\\A'}}
+            | RowsFound: {{isFindHasBeenExecuted() ? length() : 'N\\A'}}
+        </span>
+        <button class="btn-link m-r--1rem" [disabled]="!isFindHasBeenExecuted() || pageNum() === 1"
+            (click)="prevPage();">
+            Prev Page
+        </button>
+        <button class="btn-link" [disabled]="!isFindHasBeenExecuted() || pageNum() === pageCount()"
+            (click)="nextPage();">
+            Next Page
+        </button>
+    </span>
+</footer>

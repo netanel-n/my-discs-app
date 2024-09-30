@@ -1,8 +1,16 @@
 :host {
     height: 100%;
     display: grid;
+    gap: 1rem;
     grid-template-columns: 1fr;
 
-    // ToDo: Put in a variable.
-    grid-template-rows: 64px 1fr;
+    // ToDo: Put `100px` in a variable.
+    grid-template-rows: 100px 1fr;
+}
+
+h2 {
+    margin: 0;
+    color: white;
+    display: grid;
+    place-items: center;
 }

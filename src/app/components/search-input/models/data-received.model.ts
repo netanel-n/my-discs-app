@@ -5,14 +5,15 @@ export class DataReceivedModel {
     length: number;
     /** Which page was requested. */
     pageNum: number;
-    /** How many rows in a page requested. */
+    /** How many rows in a page was requested. */
     pageLength: number;
     data: SimplifiedAlbum[];
 
-    constructor(param: DataReceivedModel) {
-        this.length = param.length;
-        this.pageNum = param.pageNum;
-        this.pageLength = param.pageLength;
-        this.data = param.data;
+    /** `Partial` is only for this demo. */
+    constructor(param: Partial<DataReceivedModel>) {
+        this.length = param.length ?? -1;
+        this.pageNum = param.pageNum ?? -1;
+        this.pageLength = param.pageLength ?? -1;
+        this.data = param.data || [];
     }
 }

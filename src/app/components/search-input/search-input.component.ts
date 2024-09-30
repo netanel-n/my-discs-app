@@ -1,4 +1,4 @@
-import { Component, DestroyRef, input, model, output, signal } from '@angular/core';
+import { Component, computed, DestroyRef, input, output, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { SearchInputService } from './search-input.service';
@@ -8,27 +8,40 @@ import { BlockUiService } from '../block-ui/block-ui.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
 import { DataReceivedModel } from './models/data-received.model';
+import { RouterLink } from '@angular/router';
+import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 
 @Component({
     selector: 'app-search-input',
     standalone: true,
-    imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, DatePipe],
+    imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, DatePipe, RouterLink],
     templateUrl: './search-input.component.html',
     styleUrl: './search-input.component.scss',
     providers: [SearchInputService]
 })
 export class SearchInputComponent {
-    pageNum = input.required<number>();
-    pageLength = input.required<number>();
+    withPagination = input<boolean>();
 
     dataReceived = output<DataReceivedModel>();
+
+    /** How many rows found in API\BackEnd. */
+    length = signal<number>(-1);
+    /** Which page will be requested. */
+    pageNum = signal<number>(1);
+    /** How many rows in a page will be requested. */
+    pageLength = signal<number>(50);
+    data = signal<Map<number, SimplifiedAlbum[]>>(new Map<number, SimplifiedAlbum[]>());
+    /** Bug: I need to store `this.submitFormFindByDiscName.value.discName`. */
+    isFindHasBeenExecuted = signal<boolean>(false);
+    /** How many pages. */
+    pageCount = computed<number>(() => Math.ceil(this.length() / this.pageLength()));
+
+    readonly formGroupFindByDiscName: FormGroup<{ discName: FormControl<string> }>;
+    readonly formGroupFindByHistory: FormGroup<{ discName: FormControl<string> }>;
 
     #id = 0; // First item will be `1`.
     #indexHead = -1;
     historyQueue = signal<{ id: number, value: string, dateTime: Date }[]>([]);
-
-    readonly formGroupFindByDiscName: FormGroup<{ discName: FormControl<string> }>;
-    readonly formGroupFindByHistory: FormGroup<{ discName: FormControl<string> }>;
 
     constructor(private readonly _searchInputService: SearchInputService
         , private readonly _blockUiService: BlockUiService
@@ -40,18 +53,19 @@ export class SearchInputComponent {
 
     submitFormFindByDiscName(discName = '') {
         const discNameToSearch = discName || this.formGroupFindByDiscName.value.discName!;
+
+        // Need to improve. Statement meaning: Event came from `submitFormFindByHistory`.
         if (!discName) this.#addToHistory();
         this._blockUiService.block();
-        this._searchInputService.findDiscs(discNameToSearch, 1, this.pageLength())
+        this._searchInputService.getAll(discNameToSearch, this.pageNum(), this.pageLength())
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(x => {
+                this.length.set(x.albums.total);
+                this.data.update(data => data.set(this.pageNum(), x.albums.items));
+                this.isFindHasBeenExecuted.set(true);
+
                 // ToDo: Put `emit` in a pipe.
-                this.dataReceived.emit(new DataReceivedModel({
-                    data: x.albums.items,
-                    pageNum: this.pageNum(),
-                    length: x.albums.total,
-                    pageLength: this.pageLength()
-                }));
+                this.dataReceived.emit(new DataReceivedModel({ data: x.albums.items }));
 
                 this._blockUiService.unBlock();
             });
@@ -59,6 +73,33 @@ export class SearchInputComponent {
 
     submitFormFindByHistory() {
         this.submitFormFindByDiscName(this.formGroupFindByHistory.value.discName);
+    }
+
+    /** Put common logic in a separate function. */
+    prevPage() {
+        this.pageNum.update(x => x - 1);
+
+        // Use memory.
+        if (this.data().has(this.pageNum())) {
+            return this.dataReceived.emit(new DataReceivedModel({
+                data: this.data().get(this.pageNum())!
+            }));
+        }
+
+        this.submitFormFindByDiscName();
+    }
+
+    nextPage() {
+        this.pageNum.update(x => x + 1);
+
+        // Use memory.
+        if (this.data().has(this.pageNum())) {
+            return this.dataReceived.emit(new DataReceivedModel({
+                data: this.data().get(this.pageNum())!
+            }));
+        }
+
+        this.submitFormFindByDiscName();
     }
 
     #returnFormGroupFindByDiscName() {
@@ -81,6 +122,7 @@ export class SearchInputComponent {
      * TimeComplexity:Push=O(1), Swap=O(1) | SpaceComplexity:O(N=MAX_SIZE)
      * Implement a Symbol.iterator, For a sort ability.
      * In UI, instead of ReBuild all, Do a mutate - O(1).
+     * This is a LinkedList mimic.
      */
     #addToHistory() {
         /** Make configurable. */

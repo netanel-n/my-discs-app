@@ -7,6 +7,16 @@ import { NewReleases } from '@spotify/web-api-ts-sdk';
 export class SearchInputService {
     constructor(private readonly _http: HttpClient) { }
 
+    getAll(discName: string, pageNum: number, pageLength: number) {
+        const params = new HttpParams().set('q', discName)
+            .set('limit', pageLength)
+            .set('offset', pageNum - 1)
+            .set('type', 'album');
+
+        // ToDo: Put URL in a config file.
+        return this._http.get<NewReleases>('https://api.spotify.com/v1/search', { params });
+    }
+
     isEmptyValidator(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             /** True: if value is with only spaces, False: if not. */
@@ -14,15 +24,5 @@ export class SearchInputService {
             if (!isEmpty) return null;
             return { isEmpty: { msg: 'Must not be empty.' } };
         };
-    }
-
-    findDiscs(discName: string, pageNum: number, pageLimit: number) {
-        const params = new HttpParams().set('q', discName)
-            .set('limit', pageLimit)
-            .set('offset', pageNum - 1)
-            .set('type', 'album');
-
-        // ToDo: Put URL in a config file.
-        return this._http.get<NewReleases>('https://api.spotify.com/v1/search', { params });
     }
 }

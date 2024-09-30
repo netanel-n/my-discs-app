@@ -12,7 +12,7 @@
         <input type="password" matInput required [formControlName]="'password'">
     </mat-form-field>
     <footer>
-        <button mat-flat-button>Add</button>
-        <button type="reset" class="m-l--1rem" mat-flat-button>Reset</button>
+        <button mat-flat-button [disabled]="formGroup.invalid">Add</button>
+        <button type="reset" mat-flat-button class="m-l--1rem">Reset</button>
     </footer>
 </form>

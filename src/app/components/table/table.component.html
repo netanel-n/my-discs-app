@@ -1,4 +1,4 @@
-<mat-table [dataSource]="dataSource()">
+<mat-table recycleRows [dataSource]="dataSource()">
     @for (item of columns(); track item.key) {
     <ng-container matColumnDef="{{item.key}}">
         <mat-header-cell *matHeaderCellDef>{{item.name}}</mat-header-cell>

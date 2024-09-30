@@ -1,4 +1,4 @@
-<app-search-input [pageNum]="pageNum()" [pageLength]="50" (dataReceived)="receivedData.set($event);" />
+<app-search-input (dataReceived)="receivedData.set($event);" />
 
 <!-- ToDo: Apply a Deferrable views + Test. -->
 @if (receivedData(); as receivedData) {

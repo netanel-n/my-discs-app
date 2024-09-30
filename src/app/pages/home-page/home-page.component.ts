@@ -12,6 +12,5 @@ import { DataReceivedModel } from '../../components/search-input/models/data-rec
     host: { 'class': 'page' }
 })
 export default class HomePageComponent {
-    pageNum = signal(1);
-    receivedData = signal<null | DataReceivedModel>(null);
+    protected receivedData = signal<null | DataReceivedModel>(null);
 }

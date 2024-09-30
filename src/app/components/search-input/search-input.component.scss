@@ -1,7 +1,8 @@
 :host {
+    --num-of-rows: 2;
     display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(var(--num-of-rows), 1fr);
+    grid-template-columns: repeat(var(--num-of-rows), 1fr);
 }
 
 form {
@@ -14,5 +15,34 @@ form {
 
     &:first-child {
         border-right: 1px solid black;
+    }
+}
+
+footer {
+    display: grid;
+    place-items: center;
+    color: white;
+    background: black;
+    grid-area: var(--num-of-rows) / 1 / -1 / -1;
+
+    // ToDo: Put in `styles.scss` file.
+    .btn-link {
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+        // Hint: = royalblue.
+        // ToDo: Store in a varible.
+        color: rgba(65, 105, 225, 0.65);
+        background: transparent;
+        text-decoration: underline;
+
+        &:disabled {
+            cursor: auto;
+            color: rgba(65, 105, 225, 0.35);
+        }
+
+        &:hover:not([disabled]) {
+            color: rgb(65, 105, 225);
+        }
     }
 }

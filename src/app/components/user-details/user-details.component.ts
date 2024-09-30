@@ -26,6 +26,10 @@ export class UserDetailsComponent {
         this.formGroup = this.#returnFormGroup();
     }
 
+    /** ToDo: If successful, navigate into Home Page.
+     * Store in localStorage. A use in a `cookie` can be made, if we have a BackEnd.
+     * Put in `auth.service.ts` file.
+     */
     submitForm() {
         this.formGroup.reset();
         this._matSnackBar.open('Done!', 'Quit');

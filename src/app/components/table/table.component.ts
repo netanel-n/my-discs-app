@@ -19,7 +19,7 @@ export class TableComponent {
     hidePageSize = input<boolean>();
     withPagination = input<boolean>();
     paginationData = input<null | PaginationDataModel>();
-    length = input.required<number>();
+    length = input<number>();
     rowIdProp = input.required<string>();
     columns = input.required<ColumnModel[]>();
 
