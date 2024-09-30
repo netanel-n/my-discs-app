@@ -6,15 +6,14 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { MatSelectModule } from '@angular/material/select';
 import { BlockUiService } from '../block-ui/block-ui.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { DataReceivedModel } from './models/data-received.model';
-import { RouterLink } from '@angular/router';
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
 
 @Component({
     selector: 'app-search-input',
     standalone: true,
-    imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, DatePipe, RouterLink],
+    imports: [MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, DatePipe, DecimalPipe],
     templateUrl: './search-input.component.html',
     styleUrl: './search-input.component.scss',
     providers: [SearchInputService]

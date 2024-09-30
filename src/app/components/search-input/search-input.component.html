@@ -25,12 +25,13 @@
 <footer>
     <span>
         <span class="m-r--1rem">
-            <!-- ToDo: Create a `N\A` `const`. -->
-            <!-- Put `isFindHasBeenExecuted()` in a LocalTemplateVariable. -->
+            <!-- ToDo: Create a `N\A` `const`, -->
+            <!-- Put `isFindHasBeenExecuted()` in a LocalTemplateVariable, -->
+            <!-- Reuse number pipe, -->
             <!-- And, Put all of that, in a `pipe`. -->
-            Page {{isFindHasBeenExecuted() ? pageNum() : 'N\\A'}}
-            \ {{isFindHasBeenExecuted() ? pageCount() : 'N\\A'}}
-            | RowsFound: {{isFindHasBeenExecuted() ? length() : 'N\\A'}}
+            Page {{isFindHasBeenExecuted() ? (pageNum() | number) : 'N\\A'}}
+            \ {{isFindHasBeenExecuted() ? (pageCount() | number) : 'N\\A'}}
+            | RowsFound: {{isFindHasBeenExecuted() ? (length() | number) : 'N\\A'}}
         </span>
         <button class="btn-link m-r--1rem" [disabled]="!isFindHasBeenExecuted() || pageNum() === 1"
             (click)="prevPage();">
