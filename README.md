@@ -30,7 +30,7 @@
 - Implement Tests.
 - Bring back `src/app/app.component.spec.ts`, deleted by an accident.
 - Display error messages.
-- Auto SignOut when an error occur in a network call.
+- Auto SignOut when an error occur in a network call [401 - Unauthorized].
 - Create a `requestInterceptor` with an auto `BlockUI`.
 - Spotify: Is it a good npm package: `@spotify/web-api-ts-sdk`, Is it a good type: `NewReleases` ?
 - Spotify: HowTo return a specific columns only. For performance.
