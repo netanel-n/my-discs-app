@@ -1,0 +1,8 @@
+form {
+    width: 25%;
+    min-width: 200px;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+}
