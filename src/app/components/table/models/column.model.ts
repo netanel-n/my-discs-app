@@ -6,12 +6,13 @@ export class ColumnModel {
     name: string;
     /** Object property name. */
     key: string;
-
+    withCellDeferrableView: boolean;
     cellContentType: CellContentType_NormalModel | CellContentType_ComponentByPropModel;
 
     constructor(param: Partial<ColumnModel> = {}) {
         this.name = param.name || '';
         this.key = param.key || '';
+        this.withCellDeferrableView = param.withCellDeferrableView ?? true;
         this.cellContentType = param.cellContentType || new CellContentType_NormalModel();
     }
 }

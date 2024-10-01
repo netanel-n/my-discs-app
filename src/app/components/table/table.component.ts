@@ -3,12 +3,12 @@ import { MatTableModule } from '@angular/material/table';
 import { ColumnModel } from './models/column.model';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { PaginationDataModel } from './models/pagination-data.model';
-import { NgComponentOutlet } from '@angular/common';
+import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 
 @Component({
     selector: 'app-table',
     standalone: true,
-    imports: [MatTableModule, MatPaginatorModule, NgComponentOutlet],
+    imports: [MatTableModule, MatPaginatorModule, NgComponentOutlet, NgTemplateOutlet],
     templateUrl: './table.component.html',
     styleUrl: './table.component.scss',
     host: {
@@ -16,6 +16,7 @@ import { NgComponentOutlet } from '@angular/common';
     }
 })
 export class TableComponent {
+    rowHeight = input<string>();
     hidePageSize = input<boolean>();
     withPagination = input<boolean>();
     paginationData = input<null | PaginationDataModel>();

@@ -11,6 +11,7 @@ import { DataReceivedModel } from '../../components/search-input/models/data-rec
     styleUrl: './home-page.component.scss',
     host: { 'class': 'page' }
 })
+/** Home Page for a SignedIn identity. */
 export default class HomePageComponent {
     protected receivedData = signal<null | DataReceivedModel>(null);
 }

@@ -16,7 +16,6 @@
 
 ## ToDo
 - In Home Page: Apply a radio button strategy in the filter area.
-  - Add a scroll, height, StickyHeader to the table.
   - Put SearchQuery to url, for convenience.
   - Bug: Reset page when `Find` is pressed.
 - Display App name in title + header.

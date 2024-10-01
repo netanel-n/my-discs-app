@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { DataReceivedModel } from './models/data-received.model';
 import { SimplifiedAlbum } from '@spotify/web-api-ts-sdk';
+import { finalize } from 'rxjs';
 
 @Component({
     selector: 'app-search-input',
@@ -57,7 +58,9 @@ export class SearchInputComponent {
         if (!discName) this.#addToHistory();
         this._blockUiService.block();
         this._searchInputService.getAll(discNameToSearch, this.pageNum(), this.pageLength())
-            .pipe(takeUntilDestroyed(this._destroyRef))
+            .pipe(takeUntilDestroyed(this._destroyRef)
+                /** `unBlock` should be in `finalize`, Also should create a blockUi interceptor. */
+                , finalize(() => this._blockUiService.unBlock()))
             .subscribe(x => {
                 this.length.set(x.albums.total);
                 this.data.update(data => data.set(this.pageNum(), x.albums.items));
@@ -65,8 +68,6 @@ export class SearchInputComponent {
 
                 // ToDo: Put `emit` in a pipe.
                 this.dataReceived.emit(new DataReceivedModel({ data: x.albums.items }));
-
-                this._blockUiService.unBlock();
             });
     }
 

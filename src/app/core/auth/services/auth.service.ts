@@ -4,8 +4,10 @@ import { StorageService } from '../../../services/storage.service';
 import { map, mergeMap, of, tap } from 'rxjs';
 import { SpotifySignInResponseModel } from '../models/spotify-sign-in-response.model';
 import { ISpotifySignInResponse } from '../interfaces/spotify-sign-in-response.interface';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 import { SKIP_AUTH_VALIDATION } from '../context-tokens/context-tokens';
+import { IdentityModel } from '../models/identity.model';
+import { BlockUiService } from '../../../components/block-ui/block-ui.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,6 +18,7 @@ export class AuthService {
 
     constructor(private readonly _http: HttpClient
         , private readonly _router: Router
+        , private readonly _blockUiService: BlockUiService
         , private readonly _storageService: StorageService) { }
 
     /** For a better security, And fast reaction, And less bug possibilities,
@@ -46,15 +49,25 @@ export class AuthService {
                 }));
     }
 
-    signUp() {
-
+    /** A fake sign up. */
+    signUp(identity: IdentityModel) {
+        return of(true).pipe(mergeMap(() => this.signIn()));
     }
 
-    signOut({ withNavigate = false } = {}) {
+    signOut({ withNavigate = false, withReason = false, withUnBlockUi = false } = {}) {
+        let queryParams: null | Params = null;
+
         this._storageService.remove(this.#AUTH_KEY);
-        if (withNavigate) {
-            this._router.navigate(['/landing-page'], { replaceUrl: true });
+
+        if (withUnBlockUi) {
+            this._blockUiService.unBlock();
         }
+
+        if (withNavigate) {
+            if (withReason) queryParams = { reason: 'AUTO_SIGN_OUT' };
+            this._router.navigate(['/landing-page'], { replaceUrl: true, queryParams });
+        }
+
         return true;
     }
 }
