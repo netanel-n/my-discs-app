@@ -26,7 +26,7 @@ export const routes: Routes = [
     {
         path: 'sign-in',
         title: 'Sign In',
-        loadComponent: () => import('./pages/login-page/login-page.component'),
+        loadComponent: () => import('./pages/sign-in-page/sign-in-page.component'),
         data: { routeId: 3, isVisibleInMenu: 'ifNotSignedIn' }
     },
     {

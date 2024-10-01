@@ -8,14 +8,14 @@ import { BlockUiService } from '../../components/block-ui/block-ui.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'app-login-page',
+    selector: 'app-sign-in-page',
     standalone: true,
     imports: [ReactiveFormsModule, MatInputModule, MatButtonModule],
-    templateUrl: './login-page.component.html',
-    styleUrl: './login-page.component.scss',
+    templateUrl: './sign-in-page.component.html',
+    styleUrl: './sign-in-page.component.scss',
     host: { 'class': 'page' }
 })
-export default class LoginPageComponent {
+export default class SignInPageComponent {
     protected readonly formGroup: FormGroup<{
         username: FormControl<string>,
         password: FormControl<string>
