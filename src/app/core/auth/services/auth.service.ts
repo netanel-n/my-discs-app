@@ -8,6 +8,7 @@ import { Params, Router } from '@angular/router';
 import { SKIP_AUTH_VALIDATION } from '../context-tokens/context-tokens';
 import { IdentityModel } from '../models/identity.model';
 import { BlockUiService } from '../../../components/block-ui/block-ui.service';
+import { SignInFormModel } from '../../../components/sign-in-form/models/sign-in-form.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -33,7 +34,7 @@ export class AuthService {
     }
 
     /** A fake sign in. */
-    signIn() {
+    signIn(signInFormData: SignInFormModel) {
         return of(true).pipe(mergeMap(() => this.signInToSpotify()));
     }
 
@@ -51,7 +52,7 @@ export class AuthService {
 
     /** A fake sign up. */
     signUp(identity: IdentityModel) {
-        return of(true).pipe(mergeMap(() => this.signIn()));
+        return of(true).pipe(mergeMap(() => this.signIn(new SignInFormModel())));
     }
 
     signOut({ withNavigate = false, withReason = false, withUnBlockUi = false } = {}) {
