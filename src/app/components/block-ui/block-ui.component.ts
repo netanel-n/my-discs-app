@@ -6,6 +6,7 @@ import { Component, input } from '@angular/core';
     template: 'Please wait...',
     styleUrl: './block-ui.component.scss',
     host: {
+        'role': 'progressbar',
         '[style.display]': 'isVisible() ? "grid" : "none"'
     }
 })

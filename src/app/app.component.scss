@@ -2,12 +2,11 @@
     height: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 64px 1fr;
+    grid-template-rows: var(--mat-toolbar-standard-height) 1fr;
 
     main {
         padding: 1rem;
-        overflow: hidden;
-        overflow-y: scroll;
+        overflow: hidden scroll;
         background: linear-gradient(to right, #3a6186, #89253e);
 
         .page {

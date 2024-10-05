@@ -18,9 +18,10 @@
         <mat-label>Find by history</mat-label>
         <mat-select [formControlName]="'discName'">
             <mat-option value=""></mat-option>
-            @for (item of historyQueue().data; track item.value) {
+            @for (item of historyQueue().data; track item.id) {
             <mat-option [value]="item.value">
-                {{item.value}} - {{item.dateTime | date:'dd/MM/yyyy HH:mm:ss'}} - {{item.id}}
+                <span>{{item.value}} - {{item.dateTime | date:'dd/MM/yyyy HH:mm:ss'}} - </span>
+                <span class="bold">{{item.id}}</span>
             </mat-option>
             }
         </mat-select>

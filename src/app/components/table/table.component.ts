@@ -1,45 +1,53 @@
-import { Component, computed, input, model, output, signal } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { Component, computed, input, signal } from '@angular/core';
 import { ColumnModel } from './models/column.model';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { PaginationDataModel } from './models/pagination-data.model';
-import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
     selector: 'app-table',
     standalone: true,
-    imports: [MatTableModule, MatPaginatorModule, NgComponentOutlet, NgTemplateOutlet],
+    imports: [NgComponentOutlet],
     templateUrl: './table.component.html',
     styleUrl: './table.component.scss',
     host: {
-        '[class.with-pagination]': 'withPagination()'
+        'role': 'table',
+        '[style.--height]': 'height()',
+        '[style.--row-height]': 'rowHeight()',
+        '[style]': '{"grid-template-columns": gridTemplateColumns()}'
     }
 })
 export class TableComponent {
-    rowHeight = input<string>();
-    hidePageSize = input<boolean>();
-    withPagination = input<boolean>();
-    paginationData = input<null | PaginationDataModel>();
-    length = input<number>();
+    virtualScrollConfig = input<{ rowsCount: number }>(); // ToDo: Reset `scrollTop` + `virtualScrollState`.
+    height = input.required<string>();
+    rowHeight = input.required<string>();
     rowIdProp = input.required<string>();
     columns = input.required<ColumnModel[]>();
+    dataSource = input.required<any[]>();
 
-    rowSelected = output<{ row: any, selectedRowId: null | string | number }>();
-    pageSelected = output<PageEvent>();
+    virtualScrollState = signal({ startIndex: 0, paddingTop: 0 });
 
-    dataSource = model.required<any[]>();
-
-    columnsHeaders = computed(() => this.columns().map(x => x.key));
-
-    selectedRowId = signal<null | string | number>(null);
+    viewSource = computed(() => this.computedViewSourceFn());
+    gridTemplateColumns = computed(() => `repeat(${this.columns().length}, 1fr)`);
 
     constructor() { }
 
-    /** ToDo: OnOffSwitch. */
-    selectRow(row: any) {
-        return;
-        if (this.selectedRowId === row[this.rowIdProp()]) this.selectedRowId.set(null);
-        else this.selectedRowId = row[this.rowIdProp()];
-        this.rowSelected.emit({ row, selectedRowId: this.selectedRowId() });
+    computedViewSourceFn() {
+        const dataSource = this.dataSource();
+        if (!dataSource.length) return [];
+        const viewSource = [];
+        const startIndex = this.virtualScrollState().startIndex;
+        const endIndex = startIndex + this.virtualScrollConfig()!.rowsCount;
+        for (let i = this.virtualScrollState().startIndex; i < endIndex; i++) {
+            if (!dataSource[i]) continue;
+            viewSource.push(dataSource[i]);
+        }
+        return viewSource;
+    }
+
+    onScroll(event: Event) {
+        const rowHeight = +this.rowHeight().replace(/px$/i, '');
+        const htmlElement = event.target as HTMLElement;
+        const scrollTop = htmlElement.scrollTop;
+        const startIndex = Math.trunc(scrollTop / rowHeight);
+        this.virtualScrollState.set(({ startIndex, paddingTop: scrollTop }));
     }
 }

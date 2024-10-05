@@ -1,19 +1,42 @@
 :host {
-    height: 100%;
-    display: block;
-    background: black;
+    --header-height: 50px;
+    height: var(--height);
+    color: white;
+    display: grid;
+    grid-template-rows: var(--header-height) calc(var(--height) - var(--header-height));
+    background: rgb(16, 20, 20);
 }
 
-// ToDo: OnOffSwitch.
-_mat-row {
-    cursor: pointer;
+.item {
+    overflow: hidden;
+    padding-left: 1rem;
+    align-content: center;
+    border-bottom: 1px solid rgb(136, 147, 146);
 
-    &:hover {
-        background: silver;
-        color: black;
+    &.header {
+        font-weight: bold;
+        background: rgba(0, 0, 0, 0.5);
     }
 }
 
-.selected-row {
-    background: lightslategray;
+main {
+    grid-column: 1/-1;
+    display: grid;
+    grid-template-columns: subgrid;
+    overflow: hidden visible;
+
+    section {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-auto-rows: var(--row-height);
+        box-sizing: border-box;
+
+        .no-data {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+    }
 }

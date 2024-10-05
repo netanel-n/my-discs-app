@@ -4,15 +4,17 @@
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        @for (item of router.config; track item.path) {
-        @let isVisibleInMenu = item.data!['isVisibleInMenu'];
-        @if (isVisibleInMenu === 'visible' || (isVisibleInMenu === 'ifSignedIn' && isSignedIn)
-        || (isVisibleInMenu === 'ifNotSignedIn' && !isSignedIn)) {
-        <a mat-menu-item [routerLink]="[item.path]">
-            {{item.title}}
-        </a>
-        }
-        }
+        <nav>
+            @for (item of router.config; track item.path) {
+            @let isVisibleInMenu = item.data!['isVisibleInMenu'];
+            @if (isVisibleInMenu === 'visible' || (isVisibleInMenu === 'ifSignedIn' && isSignedIn)
+            || (isVisibleInMenu === 'ifNotSignedIn' && !isSignedIn)) {
+            <a mat-menu-item [routerLink]="[item.path]">
+                {{item.title}}
+            </a>
+            }
+            }
+        </nav>
     </mat-menu>
 
     <span>{{title.getTitle()}}</span>

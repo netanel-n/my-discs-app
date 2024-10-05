@@ -1,39 +1,28 @@
-<mat-table [dataSource]="dataSource()">
-    @for (item of columns(); track item.key) {
-    <ng-container matColumnDef="{{item.key}}">
-        <mat-header-cell *matHeaderCellDef>
-            <span class="bold">{{item.name}}</span>
-        </mat-header-cell>
-        <mat-cell *matCellDef="let row">
-            @if (item.withCellDeferrableView) {
-            @defer (on viewport) {
-            <ng-container [ngTemplateOutlet]="cellTemplate" [ngTemplateOutletContext]="{row: row, item: item}" />
-            } @placeholder {
-            <span>...</span>
-            }
-            } @else {
-            <ng-container [ngTemplateOutlet]="cellTemplate" [ngTemplateOutletContext]="{row: row, item: item}" />
-            }
-        </mat-cell>
-    </ng-container>
-    }
-
-    <mat-header-row *matHeaderRowDef="columnsHeaders(); sticky: true"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: columnsHeaders()" [class.selected-row]="row[rowIdProp()] === selectedRowId()"
-        [style.height]="rowHeight()" (click)="selectRow(row);"></mat-row>
-</mat-table>
-
-@if (withPagination()) {
-<mat-paginator [length]="length()" [hidePageSize]="hidePageSize" (page)="pageSelected.emit($event);"></mat-paginator>
+@for (columnData of columns(); track columnData.key) {
+<div class="item header">
+    <span>{{columnData.name}}</span>
+</div>
 }
 
-<ng-template let-row="row" let-item="item" #cellTemplate>
-    @switch (item.cellContentType.myName) {
-    @case ('CellContentType_Normal') {
-    <span>{{row[item.key]}}</span>
-    } @case ('CellContentType_ComponentByProp') {
-    <ng-container *ngComponentOutlet="item.cellContentType.componentTypeRef; inputs: {cellKey: item.key
-            , rowData: row, columnData: item, cellData: row[item.key]}" />
-    }
-    }
-</ng-template>
+<main (scroll)="onScroll($event);">
+    <section role="list" [style.height.px]="height()" [style.paddingTop.px]="virtualScrollState().paddingTop">
+        @for (rowData of viewSource(); let isFirstRow = $first, isLastRow = $last; track rowData[rowIdProp()]) {
+        @for (columnData of columns(); track columnData.key) {
+        @let cellData = rowData[columnData.key];
+
+        <div class="item">
+            @switch (columnData.cellContentType.myName) {
+            @case ('CellContentType_Normal') {
+            <span>{{cellData}}</span>
+            } @case ('CellContentType_ComponentByProp') {
+            <ng-container *ngComponentOutlet="columnData.cellContentType.componentTypeRef; inputs: {cellKey: columnData.key
+                , rowData, columnData, cellData}" />
+            }
+            }
+        </div>
+        }
+        } @empty {
+        <div class="item no-data">No Data</div>
+        }
+    </section>
+</main>
