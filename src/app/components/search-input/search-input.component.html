@@ -1,45 +1,51 @@
-<form [formGroup]="formGroupFindByDiscName" (ngSubmit)="submitFormFindByDiscName();">
+<mat-button-toggle-group class="app-mat-button-toggle-group" [(ngModel)]="formTypeId">
+    <!-- ToDo: Take from a list. -->
+    <mat-button-toggle value="byName">By Name</mat-button-toggle>
+    <mat-button-toggle value="byHistory">By History</mat-button-toggle>
+</mat-button-toggle-group>
+
+<form [formGroup]="formGroupFindByDiscName" (ngSubmit)="submitForm();">
     <mat-form-field>
         <mat-label>Find by Disc Name</mat-label>
         <input type="search" matInput required [formControlName]="'discName'">
     </mat-form-field>
-    <button mat-flat-button class="m-l--1rem" [disabled]="formGroupFindByDiscName.invalid">Find</button>
+    <button mat-flat-button class="m-l--1rem"
+        [disabled]="formGroupFindByDiscName.invalid || formTypeId() !== 'byName'">Find</button>
 </form>
 
-<form class="right" [formGroup]="formGroupFindByHistory" (ngSubmit)="submitFormFindByHistory();">
+<form class="right" [formGroup]="formGroupFindByHistory" (ngSubmit)="submitForm();">
     <mat-form-field>
         <mat-label>Find by history</mat-label>
         <mat-select [formControlName]="'discName'">
             <mat-option value=""></mat-option>
-            @for (item of historyQueue(); track item.value) {
+            @for (item of historyQueue().data; track item.value) {
             <mat-option [value]="item.value">
-                <p>{{item.value}} - </p>
-                <p>{{item.dateTime | date:'dd/MM/yyyy HH:mm:ss:SS'}} - {{item.id}}</p>
+                {{item.value}} - {{item.dateTime | date:'dd/MM/yyyy HH:mm:ss'}} - {{item.id}}
             </mat-option>
             }
         </mat-select>
     </mat-form-field>
-    <button mat-flat-button class="m-l--1rem" [disabled]="formGroupFindByHistory.invalid">Find</button>
+    <button mat-flat-button class="m-l--1rem"
+        [disabled]="formGroupFindByHistory.invalid || formTypeId() !== 'byHistory'">Find</button>
 </form>
 
 <footer>
     <span>
-        <span class="m-r--1rem">
-            <!-- ToDo: Create a `N\A` `const`, -->
-            <!-- Put `isFindHasBeenExecuted()` in a LocalTemplateVariable, -->
-            <!-- Reuse number pipe, -->
-            <!-- And, Put all of that, in a `pipe`. -->
-            Page {{isFindHasBeenExecuted() ? (pageNum() | number) : 'N\\A'}}
-            \ {{isFindHasBeenExecuted() ? (pageCount() | number) : 'N\\A'}}
-            | RowsFound: {{isFindHasBeenExecuted() ? (length() | number) : 'N\\A'}}
-        </span>
+        @if (isFindHasBeenExecuted()) {
+        Page {{pageNum() | number}}
+        @if (data().get(pageNum()); as rowsInPage) { [RowsInPage: {{rowsInPage.length | number}}] } @else {[]}
+        \ {{pageCount() | number}}
+        | RowsFound: {{length() | number}}
+        }
+    </span>
+    <div class="btn-area">
         <button class="btn-link m-r--1rem" [disabled]="!isFindHasBeenExecuted() || pageNum() === 1"
-            (click)="prevPage();">
+            (click)="pageEvent('prevPage');">
             Prev Page
         </button>
         <button class="btn-link" [disabled]="!isFindHasBeenExecuted() || pageNum() === pageCount()"
-            (click)="nextPage();">
+            (click)="pageEvent('nextPage');">
             Next Page
         </button>
-    </span>
+    </div>
 </footer>

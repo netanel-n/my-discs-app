@@ -8,6 +8,7 @@ export class SearchInputService {
     constructor(private readonly _http: HttpClient) { }
 
     getAll(discName: string, pageNum: number, pageLength: number) {
+        // ToDo: There might be a Bug in `offset`.
         const params = new HttpParams().set('q', discName)
             .set('limit', pageLength)
             .set('offset', pageNum - 1)

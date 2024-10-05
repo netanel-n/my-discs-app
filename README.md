@@ -15,9 +15,6 @@
   - 29/09 20:30+- => 30/09 04:30+-, 30/09 08:00+- => 30/09 09:30+- | Almost half a day.
 
 ## ToDo
-- In Home Page: Apply a radio button strategy in the filter area.
-  - Put SearchQuery to url, for convenience.
-  - Bug: Reset page when `Find` is pressed.
 - Display App name in title + header.
 - Rename a few pages as their title.
 - Add a nice FavIcon.
@@ -29,7 +26,6 @@
 - Implement Tests.
 - Bring back `src/app/app.component.spec.ts`, deleted by an accident.
 - Display error messages.
-- Auto SignOut when an error occur in a network call [401 - Unauthorized].
 - Create a `requestInterceptor` with an auto `BlockUI`.
 - Spotify: Is it a good npm package: `@spotify/web-api-ts-sdk`, Is it a good type: `NewReleases` ?
 - Spotify: HowTo return a specific columns only. For performance.

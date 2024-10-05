@@ -12,8 +12,12 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.hide {
-    display: none;
+mat-button-toggle-group.app-mat-button-toggle-group {
+    border-radius: 0;
+
+    button {
+        height: 100%;
+    }
 }
 
 .bold {

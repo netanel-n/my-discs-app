@@ -1,8 +1,9 @@
 :host {
     --num-of-rows: 2;
     display: grid;
+    gap: 0 2rem;
     grid-template-rows: repeat(var(--num-of-rows), 1fr);
-    grid-template-columns: repeat(var(--num-of-rows), 1fr);
+    grid-template-columns: max-content 1fr 1fr;
 }
 
 form {
@@ -11,38 +12,44 @@ form {
 
     &.right {
         justify-self: end;
-    }
+        width: clamp(325px, 50%, 500px);
 
-    &:first-child {
-        border-right: 1px solid black;
+        mat-form-field {
+            width: 100%;
+        }
     }
 }
 
 footer {
-    display: grid;
+    padding: 0 1rem;
+    display: flex;
     place-items: center;
     color: white;
     background: black;
     grid-area: var(--num-of-rows) / 1 / -1 / -1;
 
-    // ToDo: Put in `styles.scss` file.
-    .btn-link {
-        font-size: 1rem;
-        cursor: pointer;
-        border: none;
-        // Hint: = royalblue.
-        // ToDo: Store in a varible.
-        color: rgba(65, 105, 225, 0.65);
-        background: transparent;
-        text-decoration: underline;
+    .btn-area {
+        margin-left: auto;
 
-        &:disabled {
-            cursor: auto;
-            color: rgba(65, 105, 225, 0.35);
-        }
+        // ToDo: Put in `styles.scss` file.
+        .btn-link {
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            // Hint: = royalblue.
+            // ToDo: Store in a varible.
+            color: rgba(65, 105, 225, 0.65);
+            background: transparent;
+            text-decoration: underline;
 
-        &:hover:not([disabled]) {
-            color: rgb(65, 105, 225);
+            &:disabled {
+                cursor: auto;
+                color: rgba(65, 105, 225, 0.35);
+            }
+
+            &:hover:not([disabled]) {
+                color: rgb(65, 105, 225);
+            }
         }
     }
 }
