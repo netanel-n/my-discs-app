@@ -9,6 +9,8 @@
 - Tested in `Chrome v129` - `Windows` - `1920 x 920` - `Desktop` - `@angular/cli@18.2.5`.
 - I made a use of new features, some might not work for you.
 - In the test, section 1.4 - A component for a row, In Angular MD, Is not allowed.
+  - Eventually, I built my own. I will add this support.
+  - Currently, I added a support for a CellComponent.
 - The `*` in `package.json` is only for this demo.
 - Timeframe 26/09 12:30+- => 26/09 20:00+-, 27/09 10:30+- => 27/09 18:00+- | Almost one day.
   - 28/09 19:00+- => 29/09 03:00+- | Almost half a day.
