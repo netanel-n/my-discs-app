@@ -5,11 +5,11 @@
 }
 
 <main (scroll)="onScroll($event);">
-    <section role="list" [style.height.px]="height()" [style.paddingTop.px]="virtualScrollState().paddingTop">
+    <section role="list" [style.height.px]="realNonVirtualHeight()"
+        [style.paddingTop.px]="virtualScrollState().paddingTop">
         @for (rowData of viewSource(); let isFirstRow = $first, isLastRow = $last; track rowData[rowIdProp()]) {
         @for (columnData of columns(); track columnData.key) {
         @let cellData = rowData[columnData.key];
-
         <div class="item">
             @switch (columnData.cellContentType.myName) {
             @case ('CellContentType_Normal') {

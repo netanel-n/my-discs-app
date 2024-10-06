@@ -15,6 +15,7 @@
   - 29/09 20:30+- => 30/09 04:30+-, 30/09 08:00+- => 30/09 09:30+- | Almost half a day.
 
 ## ToDo
+- Add a BaseClass, For a PageComponent.
 - Display App name in title + header.
 - Rename a few pages as their title.
 - Add a nice FavIcon.

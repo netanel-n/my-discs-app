@@ -25,6 +25,8 @@ export class TableComponent {
 
     virtualScrollState = signal({ startIndex: 0, paddingTop: 0 });
 
+    rowHeightInPx = computed(() => +this.rowHeight().replace(/px$/i, ''));
+    realNonVirtualHeight = computed(() => this.dataSource().length * this.rowHeightInPx());
     viewSource = computed(() => this.computedViewSourceFn());
     gridTemplateColumns = computed(() => `repeat(${this.columns().length}, 1fr)`);
 
@@ -44,10 +46,9 @@ export class TableComponent {
     }
 
     onScroll(event: Event) {
-        const rowHeight = +this.rowHeight().replace(/px$/i, '');
         const htmlElement = event.target as HTMLElement;
         const scrollTop = htmlElement.scrollTop;
-        const startIndex = Math.trunc(scrollTop / rowHeight);
+        const startIndex = Math.trunc(scrollTop / this.rowHeightInPx());
         this.virtualScrollState.set(({ startIndex, paddingTop: scrollTop }));
     }
 }
