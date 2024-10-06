@@ -1,10 +1,9 @@
-import { Component, input, output } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { TableComponent } from '../table/table.component';
 import { ColumnModel } from '../table/models/column.model';
 import { CellContentType_ComponentByPropModel } from '../table/models/cell-content-type_component-by-prop.model';
 import { DiscListItemComponent } from '../disc-list-item/disc-list-item.component';
 import { DataReceivedModel } from '../search-input/models/data-received.model';
-import { PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-disc-list',
@@ -16,9 +15,7 @@ import { PageEvent } from '@angular/material/paginator';
 export class DiscListComponent {
     receivedData = input.required<DataReceivedModel>();
 
-    pageSelected = output<PageEvent>();
-
-    readonly columns = [
+    protected readonly columns = [
         new ColumnModel({
             name: 'Name', key: 'name',
             cellContentType: new CellContentType_ComponentByPropModel({ componentTypeRef: DiscListItemComponent })
