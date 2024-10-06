@@ -5,7 +5,7 @@
 
 <!-- ToDo: Implement an input transform instead. -->
 @if (cellData().at(-1).url; as imageUrl) {
-<img [src]="cellData().at(-1).url" height="64">
+<img [src]="imageUrl" height="64">
 } @else {
 <span>Album image not available.</span>
 }
