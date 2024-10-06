@@ -3,7 +3,7 @@
 <span>{{cellData()}}</span>
 } @case ('images') {
 
-<!-- ToDo: Implement an input transform instead. -->
+<!-- ToDo: Do a Pipe instead. -->
 @if (cellData().at(-1).url; as imageUrl) {
 <img [src]="imageUrl" height="64">
 } @else {
