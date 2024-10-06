@@ -32,7 +32,7 @@ export const routes: Routes = [
     {
         path: 'sign-up',
         title: 'Sign Up',
-        loadComponent: () => import('./pages/user-page/user-page.component'),
+        loadComponent: () => import('./pages/sign-up-page/sign-up-page.component'),
         data: { routeId: 4, isVisibleInMenu: 'ifNotSignedIn' }
     },
     {

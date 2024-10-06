@@ -2,27 +2,24 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { UserDetailsService } from './user-details.service';
+import { SignUpFormService } from './sign-up-form.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SignUpFormModel } from './models/sign-up-form.model';
 
 @Component({
-    selector: 'app-user-details',
+    selector: 'app-sign-up-form',
     standalone: true,
     imports: [ReactiveFormsModule, MatInputModule, MatButtonModule],
-    templateUrl: './user-details.component.html',
-    styleUrl: './user-details.component.scss',
-    providers: [UserDetailsService]
+    templateUrl: './sign-up-form.component.html',
+    styleUrl: './sign-up-form.component.scss',
+    providers: [SignUpFormService]
 })
-export class UserDetailsComponent {
-    readonly formGroup: FormGroup<{
-        email: FormControl<string>,
-        username: FormControl<string>,
-        password: FormControl<string>
-    }>;
+export class SignUpFormComponent {
+    protected readonly formGroup: FormGroup<{ [K in keyof SignUpFormModel]: FormControl<SignUpFormModel[K]> }>;
 
     constructor(private readonly _formBuilder: FormBuilder
         , private readonly _matSnackBar: MatSnackBar
-        , private readonly _userDetailsService: UserDetailsService) {
+        , private readonly _signUpFormService: SignUpFormService) {
         this.formGroup = this.#returnFormGroup();
     }
 
@@ -37,15 +34,15 @@ export class UserDetailsComponent {
 
     #returnFormGroup() {
         return this._formBuilder.nonNullable.group({
-            email: ['', [Validators.required, this._userDetailsService.emailValidator()]],
+            email: ['', [Validators.required, this._signUpFormService.emailValidator()]],
             username: ['', [
                 Validators.required,
-                this._userDetailsService.onlyEnglishCharsAndNumbersValidator(),
-                this._userDetailsService.isFirstCharNotANumberValidator()
+                this._signUpFormService.onlyEnglishCharsAndNumbersValidator(),
+                this._signUpFormService.isFirstCharNotANumberValidator()
             ]],
             password: ['', [
                 Validators.required,
-                this._userDetailsService.atLeastOneEngUppercaseAndAtLeastOneNumberAndNoSpacesValidator()
+                this._signUpFormService.atLeastOneEngUppercaseAndAtLeastOneNumberAndNoSpacesValidator()
             ]]
         });
     }
